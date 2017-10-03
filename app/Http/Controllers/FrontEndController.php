@@ -208,14 +208,19 @@ class FrontEndController extends JoshController
     {
         // Is the user logged in?
         if (Sentinel::check()) {
-            return Redirect::route('my-account');
+            return Redirect::route('admin.dashboard');
         }
 
         $user = Sentinel::findById($userId);
 
         if (Activation::complete($user, $activationCode)) {
             // Activation was successfull
-            return Redirect::route('login')->with('success', trans('auth/message.activate.success'));
+            //return Redirect::route('login')->with('success', trans('auth/message.activate.success'));
+
+	        Sentinel::loginAndRemember($user);
+	        return Redirect::route('admin.dashboard');
+
+
         } else {
             // Activation not found or not completed.
             $error = trans('auth/message.activate.error');

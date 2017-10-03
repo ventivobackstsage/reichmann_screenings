@@ -42,7 +42,12 @@ class UsersController extends JoshController
      */
     public function data()
     {
-        $users = User::get(['id', 'first_name', 'last_name', 'email','created_at']);
+
+        if(Sentinel::inRole('admin'))
+            $users = User::get(['id', 'first_name', 'last_name', 'email','created_at']);
+        elseif (Sentinel::inRole('company')){
+            $users = User::where('entity_id',Sentinel::getUser()->company->id)->get(['id', 'first_name', 'last_name', 'email','created_at']);
+        }
 
         return DataTables::of($users)
             ->editColumn('created_at',function(User $user) {
@@ -57,6 +62,7 @@ class UsersController extends JoshController
 
             })
             ->addColumn('actions',function($user) {
+                if(!Sentinel::inRole('admin')) return "";
                 $actions = '<a href='. route('admin.users.show', $user->id) .'><i class="livicon" data-name="info" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="view user"></i></a>
                             <a href='. route('admin.users.edit', $user->id) .'><i class="livicon" data-name="edit" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="update user"></i></a>';
                 if ((Sentinel::getUser()->id != $user->id) && ($user->id != 1)) {
@@ -81,6 +87,21 @@ class UsersController extends JoshController
         $countries = $this->countries;
         // Show the page
         return view('admin.users.create', compact('groups', 'countries'));
+    }
+
+    /**
+     * Create new user
+     *
+     * @return View
+     */
+    public function invite()
+    {
+        // Get all the available groups
+        $groups = Sentinel::getRoleRepository()->all();
+
+        $countries = $this->countries;
+        // Show the page
+        return view('admin.users.invite', compact('groups', 'countries'));
     }
 
     /**
@@ -120,6 +141,52 @@ class UsersController extends JoshController
                 // Send the activation code through email
                 Mail::to($user->email)
                     ->send(new Restore($data));
+            }
+
+            // Redirect to the home page with success menu
+            return Redirect::route('admin.users.index')->with('success', trans('users/message.success.create'));
+
+        } catch (LoginRequiredException $e) {
+            $error = trans('admin/users/message.user_login_required');
+        } catch (PasswordRequiredException $e) {
+            $error = trans('admin/users/message.user_password_required');
+        } catch (UserExistsException $e) {
+            $error = trans('admin/users/message.user_exists');
+        }
+
+        // Redirect to the user creation page
+        return Redirect::back()->withInput()->with('error', $error);
+    }
+
+    /**
+     * User invite form processing.
+     *
+     * @return Redirect
+     */
+    public function store_company(UserRequest $request)
+    {
+        $data = new stdClass();
+        
+        //check whether use should be activated by default or not
+        $activate = false;
+
+        try {
+            // Register the user
+            $user = Sentinel::register($request->except('_token', 'password_confirm', 'group', 'activate', 'pic_file'), $activate);
+
+            //add user to 'User' group
+            $role = Sentinel::findRoleById($request->get('group'));
+            if ($role) {
+                $role->users()->attach($user);
+            }
+            //check for activation and send activation mail if not activated by default
+            if (!$request->get('activate')) {
+                // Data to be used on the email view
+                $data->user_name =$user->first_name .' '. $user->last_name;
+                $data->activationUrl = URL::route('activate', [$user->id, Activation::create($user)->code]);
+
+                // Send the activation code through email
+                Mail::to($user->email)->send(new Restore($data));
             }
 
             // Redirect to the home page with success menu

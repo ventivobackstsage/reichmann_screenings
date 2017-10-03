@@ -71,6 +71,8 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin',
     # User Management
     Route::group([ 'prefix' => 'users'], function () {
         Route::get('data', 'UsersController@data')->name('users.data');
+        Route::post('store_company', 'UsersController@store_company')->name('users.store_company');
+        Route::get('invite', 'UsersController@invite')->name('users.invite');
         Route::get('{user}/delete', 'UsersController@destroy')->name('users.delete');
         Route::get('{user}/confirm-delete', 'UsersController@getModalDelete')->name('users.confirm-delete');
         Route::get('{user}/restore', 'UsersController@getRestore')->name('restore.user');
