@@ -75,4 +75,9 @@ class Candidate extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function certificates()
+    {
+        return $this->hasManyThrough(Certificate::class,Education::class);
+    }
 }

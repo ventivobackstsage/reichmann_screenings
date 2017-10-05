@@ -1,9 +1,3 @@
-<!-- Candidate Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('candidate_id', 'Candidate Id:') !!}
-    {!! Form::text('candidate_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Company Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('Company', 'Company:') !!}
@@ -20,6 +14,11 @@
 <div class="form-group col-sm-12">
     {!! Form::label('Position', 'Position:') !!}
     {!! Form::text('Position', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Info Field -->
+<div class="form-group col-sm-12">
+    {!! Form::textarea('info', null, ['placeholder' => 'Describe your job position', 'class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

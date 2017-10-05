@@ -1,7 +1,6 @@
 <table class="table table-responsive" id="experiences-table">
     <thead>
      <tr>
-        <th>Candidate Id</th>
         <th>Company</th>
         <th>Period</th>
         <th>Position</th>
@@ -11,7 +10,6 @@
     <tbody>
     @foreach($experiences as $experience)
         <tr>
-            <td>{!! $experience->candidate_id !!}</td>
             <td>{!! $experience->Company !!}</td>
             <td>{!! $experience->Period !!}</td>
             <td>{!! $experience->Position !!}</td>

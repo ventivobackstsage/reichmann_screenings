@@ -1,21 +1,24 @@
 <table class="table table-responsive" id="certificates-table">
     <thead>
      <tr>
-        <th>Path</th>
+         <th>School</th>
+         <th>Level</th>
+         <th>Attachement</th>
+         <th>Uploaded</th>
         <th colspan="3">Action</th>
      </tr>
     </thead>
     <tbody>
     @foreach($certificates as $certificate)
         <tr>
-            <td>{!! $certificate->path !!}</td>
+            <td>{!! $certificate->education->institution !!}</td>
+            <td>{!! $certificate->education->Level !!}</td>
+            <td><a href='{{ asset("$certificate->path") }}' target="_blank">
+                    See the attachment
+                    <i class="livicon" data-name="eye-open" data-size="16" data-loop="true" data-c="#00bc8c" data-hc="#00bc8c" title="view"></i>
+                </a></td>
+            <td>{!! $certificate->created_at !!}</td>
             <td>
-                 <a href="{{ route('admin.certificates.show', $certificate->id) }}">
-                     <i class="livicon" data-name="info" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="view certificate"></i>
-                 </a>
-                 <a href="{{ route('admin.certificates.edit', $certificate->id) }}">
-                     <i class="livicon" data-name="edit" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="edit certificate"></i>
-                 </a>
                  <a href="{{ route('admin.certificates.confirm-delete', $certificate->id) }}" data-toggle="modal" data-target="#delete_confirm">
                      <i class="livicon" data-name="remove-alt" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete certificate"></i>
                  </a>

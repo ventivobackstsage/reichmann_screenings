@@ -44,11 +44,11 @@ class Order extends Model
      * @var array
      */
     public static $rules = [
-        'company_id' => 'required|integer',
-        'candidate_id' => 'required|integer',
-        'position' => 'required',
-        'reason' => 'required',
-        'status' => 'required'
+        'company_id' => 'integer',
+        'candidate_id' => 'integer',
+        'position' => 'string',
+        'reason' => 'string',
+        'status' => 'string'
     ];
 
     public function updates()

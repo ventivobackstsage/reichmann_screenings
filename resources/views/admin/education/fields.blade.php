@@ -1,9 +1,3 @@
-<!-- Candidate Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('candidate_id', 'Candidate Id:') !!}
-    {!! Form::text('candidate_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Institution Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('institution', 'Institution:') !!}
@@ -24,9 +18,9 @@
 
 <!-- Level Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('Level', 'Level:') !!}
-    {!! Form::text('Level', null, ['class' => 'form-control']) !!}
+        {!! Form::select('Level', array('primary school'=>'primary school','secondary school'=>'secondary school','high school'=>'high school','college'=>'college','master'=>'master'), null, ['placeholder' => 'Please select level', 'class' => 'form-control', 'required']); !!}
 </div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 text-center">

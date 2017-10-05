@@ -122,6 +122,15 @@ class AuthController extends JoshController
         if (Activation::complete($user, $activation->code)) {
             // Activation was successful
             // Redirect to the login page
+
+            Sentinel::login($user, false);
+
+            if(Sentinel::inRole('company')){
+                return Redirect::route('admin.candidates.create');
+            }else{
+                return Redirect::route('admin.dashboard');
+            }
+
             return Redirect::route('signin')->with('success', trans('auth/message.activate.success'));
         } else {
             // Activation not found or not completed.

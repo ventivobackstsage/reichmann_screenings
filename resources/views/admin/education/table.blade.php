@@ -1,24 +1,20 @@
 <table class="table table-responsive" id="education-table">
     <thead>
      <tr>
-        <th>Candidate Id</th>
         <th>Institution</th>
         <th>City</th>
         <th>Period</th>
         <th>Level</th>
-        <th>Certificate Id</th>
         <th colspan="3">Action</th>
      </tr>
     </thead>
     <tbody>
     @foreach($education as $education)
         <tr>
-            <td>{!! $education->candidate_id !!}</td>
             <td>{!! $education->institution !!}</td>
             <td>{!! $education->city !!}</td>
             <td>{!! $education->Period !!}</td>
             <td>{!! $education->Level !!}</td>
-            <td>{!! $education->certificate_id !!}</td>
             <td>
                  <a href="{{ route('admin.education.show', $education->id) }}">
                      <i class="livicon" data-name="info" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="view education"></i>

@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
 use App\Mail\Restore;
+use App\Models\Order;
 use App\Repositories\CandidateRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
@@ -48,9 +49,10 @@ class CandidateController extends InfyOmBaseController
             $collection = Sentinel::getUser()->company->orders->map(function($order){
                 return $order->candidate_id;
             });
-
             $candidates = $this->candidateRepository->findWhereIn('id',$collection->toArray());
         }
+
+	    //dd($candidates[0]->user->first_name);
         
         return view('admin.candidates.index')
             ->with('candidates', $candidates);
@@ -82,19 +84,32 @@ class CandidateController extends InfyOmBaseController
 		    // Register the user
 		    $user = Sentinel::register(['email'=>$request->get('email'),'password'=>$request->get('password')], $activate);
 
+		    $user->first_name = $request->get('first_name');
+		    $user->last_name = $request->get('last_name');
+		    $user->save();
+
 		    //add user to 'User' group
 		    $role = Sentinel::findRoleById($request->get('group'));
 		    if ($role) {
 			    $role->users()->attach($user);
 		    }
 
-		    $input = $request->except('_token', 'first_name', 'last_name', 'password', 'email', 'password_confirm', 'group', 'activate');
+		    $input = $request->except('_token', 'first_name', 'last_name', 'password', 'email', 'password_confirm', 'group', 'activate', 'position', 'reason');
 
 		    $input['user_id'] = $user->id;
 
 		    $candidate = $this->candidateRepository->create($input);
 
-		    Flash::success('Candidate saved successfully.');
+		    $order = array();
+		    $order['position'] = $request->get('position');
+		    $order['reason'] = $request->get('reason');
+		    $order['candidate_id'] = $candidate->id;
+		    $order['company_id'] = Sentinel::getUser()->company->id;
+		    $order['status'] = 'pending';
+
+		    $order = Order::create($order);
+
+		    Flash::success('Candidate create! \r\nYour order was placed.');
 
 		    //check for activation and send activation mail if not activated by default
 		    if (!$request->get('activate')) {

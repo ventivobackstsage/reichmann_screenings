@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Company;
+use App\Models\Update;
 use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -135,7 +136,15 @@ class OrderController extends InfyOmBaseController
             return redirect(route('orders.index'));
         }
 
-        $order = $this->orderRepository->update($request->all(), $id);
+        $order = $this->orderRepository->update($request->except('info'), $id);
+
+        $update = new Update;
+        $update->order_id = $order->id;
+        $update->status = $request->get('status');
+        $update->Description = $request->get('info');
+        $update->user_id = Sentinel::getUser()->id;
+        $update->save();
+
 
         Flash::success('Order updated successfully.');
 

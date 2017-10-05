@@ -25,16 +25,25 @@
     </a>
 </li>
 @endif
-@if (Sentinel::check() && Sentinel::inRole('admin'))
-<li class="{{ Request::is('education*') ? 'active' : '' }}">
-    <a href="{!! route('admin.education.index') !!}">
-    <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
-               data-loop="true"></i>
-               Education
+@if (Sentinel::check() && (Sentinel::inRole('candidate')))
+<li class="{{ Request::is('resume*') ? 'active' : '' }}">
+    <a href="{!! route('admin.resume.index') !!}">
+        <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
+           data-loop="true"></i>
+        Resume
     </a>
 </li>
 @endif
-@if (Sentinel::check() && Sentinel::inRole('admin'))
+@if (Sentinel::check() && (Sentinel::inRole('admin')||Sentinel::inRole('candidate')))
+<li class="{{ Request::is('education*') ? 'active' : '' }}">
+    <a href="{!! route('admin.education.index') !!}">
+        <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
+           data-loop="true"></i>
+        Education
+    </a>
+</li>
+@endif
+@if (Sentinel::check() && (Sentinel::inRole('admin')||Sentinel::inRole('candidate')))
 <li class="{{ Request::is('certificates*') ? 'active' : '' }}">
     <a href="{!! route('admin.certificates.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
@@ -42,9 +51,8 @@
                Certificates
     </a>
 </li>
-
 @endif
-@if (Sentinel::check() && Sentinel::inRole('admin'))
+@if (Sentinel::check() && (Sentinel::inRole('admin')||Sentinel::inRole('candidate')))
 <li class="{{ Request::is('experiences*') ? 'active' : '' }}">
     <a href="{!! route('admin.experiences.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"

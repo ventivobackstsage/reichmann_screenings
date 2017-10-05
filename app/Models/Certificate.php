@@ -38,7 +38,8 @@ class Certificate extends Model
      * @var array
      */
     public static $rules = [
-        'path' => 'required'
+        'education_id' => 'required',
+        'image' => 'image|mimes:jpeg,png,jpg',
     ];
 
 

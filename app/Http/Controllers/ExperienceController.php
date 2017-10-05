@@ -7,6 +7,7 @@ use App\Http\Requests\CreateExperienceRequest;
 use App\Http\Requests\UpdateExperienceRequest;
 use App\Repositories\ExperienceRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Experience;
@@ -34,7 +35,13 @@ class ExperienceController extends InfyOmBaseController
     {
 
         $this->experienceRepository->pushCriteria(new RequestCriteria($request));
-        $experiences = $this->experienceRepository->all();
+
+        if(Sentinel::inRole('admin'))
+            $experiences = $this->experienceRepository->all();
+        elseif (Sentinel::inRole('candidate')){
+            $experiences = Sentinel::getUser()->candidate->experience;
+        }
+
         return view('admin.experiences.index')
             ->with('experiences', $experiences);
     }
@@ -59,6 +66,8 @@ class ExperienceController extends InfyOmBaseController
     public function store(CreateExperienceRequest $request)
     {
         $input = $request->all();
+
+        $input['candidate_id'] = Sentinel::getUser()->candidate->id;
 
         $experience = $this->experienceRepository->create($input);
 

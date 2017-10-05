@@ -175,7 +175,7 @@ Route::post('contact', 'FrontEndController@postContact')->name('contact');
 
 #frontend views
 Route::get('/', ['as' => 'home', function () {
-    return view('index');
+    return redirect('admin/login');
 }]);
 
 Route::get('blog','BlogController@index')->name('blog');

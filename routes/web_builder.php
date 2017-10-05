@@ -93,16 +93,22 @@ Route::get('experiences/{experiences}/edit', ['as'=> 'experiences.edit', 'uses' 
 });
 
 
-Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
+	Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
 
-Route::get('updates', ['as'=> 'updates.index', 'uses' => 'UpdateController@index']);
-Route::post('updates', ['as'=> 'updates.store', 'uses' => 'UpdateController@store']);
-Route::get('updates/create', ['as'=> 'updates.create', 'uses' => 'UpdateController@create']);
-Route::put('updates/{updates}', ['as'=> 'updates.update', 'uses' => 'UpdateController@update']);
-Route::patch('updates/{updates}', ['as'=> 'updates.update', 'uses' => 'UpdateController@update']);
-Route::get('updates/{id}/delete', array('as' => 'updates.delete', 'uses' => 'UpdateController@getDelete'));
-Route::get('updates/{id}/confirm-delete', array('as' => 'updates.confirm-delete', 'uses' => 'UpdateController@getModalDelete'));
-Route::get('updates/{updates}', ['as'=> 'updates.show', 'uses' => 'UpdateController@show']);
-Route::get('updates/{updates}/edit', ['as'=> 'updates.edit', 'uses' => 'UpdateController@edit']);
+		Route::get('updates', ['as'=> 'updates.index', 'uses' => 'UpdateController@index']);
+		Route::post('updates', ['as'=> 'updates.store', 'uses' => 'UpdateController@store']);
+		Route::get('updates/create', ['as'=> 'updates.create', 'uses' => 'UpdateController@create']);
+		Route::put('updates/{updates}', ['as'=> 'updates.update', 'uses' => 'UpdateController@update']);
+		Route::patch('updates/{updates}', ['as'=> 'updates.update', 'uses' => 'UpdateController@update']);
+		Route::get('updates/{id}/delete', array('as' => 'updates.delete', 'uses' => 'UpdateController@getDelete'));
+		Route::get('updates/{id}/confirm-delete', array('as' => 'updates.confirm-delete', 'uses' => 'UpdateController@getModalDelete'));
+		Route::get('updates/{updates}', ['as'=> 'updates.show', 'uses' => 'UpdateController@show']);
+		Route::get('updates/{updates}/edit', ['as'=> 'updates.edit', 'uses' => 'UpdateController@edit']);
 
-});
+	});
+
+	Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
+
+		Route::get('resume', ['as'=> 'resume.index', 'uses' => 'ResumeController@index']);
+
+	});

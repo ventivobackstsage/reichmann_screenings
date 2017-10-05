@@ -290,6 +290,8 @@ class JoshController extends Controller {
 
     public function showHome()
     {
+
+
     	if(Sentinel::check())
 			return view('admin.index');
 		else

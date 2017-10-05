@@ -40,10 +40,3 @@
     <hr>
 </div>
 
-<!-- Certificate Id Field -->
-<div class="form-group">
-    {!! Form::label('certificate_id', 'Certificate Id:') !!}
-    <p>{!! $education->certificate_id !!}</p>
-    <hr>
-</div>
-

@@ -49,7 +49,7 @@
                             <img src="{!! url('/').'/uploads/users/'.Sentinel::getUser()->pic !!}" alt="img" height="35px" width="35px"
                                  class="img-circle img-responsive pull-left"/>
                         @else
-                            <img src="{!! asset('assets/img/authors/avatar3.jpg') !!} " width="35"
+                            <img src="{!! asset('assets/img/authors/no_avatar.jpg') !!} " width="35"
                                  class="img-circle img-responsive pull-left" height="35" alt="riot">
                         @endif
                         <div class="riot">
@@ -68,18 +68,18 @@
                                 <img src="{!! url('/').'/uploads/users/'.Sentinel::getUser()->pic !!}" alt="img"
                                      class="img-circle img-bor"/>
                             @else
-                                <img src="{!! asset('assets/img/authors/avatar3.jpg') !!}"
+                                <img src="{!! asset('assets/img/authors/no_avatar.jpg') !!}"
                                      class="img-responsive img-circle" alt="User Image">
                             @endif
                             <p class="topprofiletext">{{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}</p>
                         </li>
                         <!-- Menu Body -->
-                        <li>
+                        {{-- <li>
                             <a href="{{ URL::route('admin.users.show',Sentinel::getUser()->id) }}">
                                 <i class="livicon" data-name="user" data-s="18"></i>
                                 My Profile
                             </a>
-                        </li>
+                        </li> --}}
                         <li role="presentation"></li>
                         <li>
                             <a href="{{ route('admin.users.edit', Sentinel::getUser()->id) }}">
@@ -113,7 +113,7 @@
     <aside class="left-side sidebar-offcanvas">
         <section class="sidebar ">
             <div class="page-sidebar  sidebar-nav">
-                <div class="nav_icons">
+                {{-- <div class="nav_icons">
                     <ul class="sidebar_threeicons">
                         <li>
                             <a href="{{ URL::to('admin/advanced_tables') }}">
@@ -140,7 +140,7 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="clearfix"></div>
                 <!-- BEGIN SIDEBAR MENU -->
                 @include('admin.layouts._left_menu')

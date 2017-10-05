@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Requests\CreateCertificateRequest;
 use App\Http\Requests\UpdateCertificateRequest;
+use App\Models\Education;
 use App\Repositories\CertificateRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Certificate;
@@ -34,7 +36,13 @@ class CertificateController extends InfyOmBaseController
     {
 
         $this->certificateRepository->pushCriteria(new RequestCriteria($request));
-        $certificates = $this->certificateRepository->all();
+
+        if(Sentinel::inRole('admin'))
+            $certificates = $this->certificateRepository->all();
+        elseif (Sentinel::inRole('candidate')){
+            $certificates = Sentinel::getUser()->candidate->certificates;
+        }
+
         return view('admin.certificates.index')
             ->with('certificates', $certificates);
     }
@@ -46,7 +54,9 @@ class CertificateController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('admin.certificates.create');
+        $education = Sentinel::getUser()->candidate->education->pluck('FullName','id');
+        return view('admin.certificates.create')
+            ->with('education', $education);
     }
 
     /**
@@ -58,9 +68,20 @@ class CertificateController extends InfyOmBaseController
      */
     public function store(CreateCertificateRequest $request)
     {
-        $input = $request->all();
+        $input = $request->except('image');
 
         $certificate = $this->certificateRepository->create($input);
+
+        $image = $request->file('image');
+
+        $input['path'] = $certificate->id.'_'.$image->getClientOriginalName().'.'.$image->getClientOriginalExtension();
+
+        $destinationPath = public_path('/images/certificates');
+
+        $image->move($destinationPath, $input['path']);
+
+        $certificate->path = '/images/certificates/'.$input['path'];
+        $certificate->save();
 
         Flash::success('Certificate saved successfully.');
 

@@ -44,19 +44,33 @@ class Education extends Model
      * @var array
      */
     public static $rules = [
-        'candidate_id' => 'required|integer',
+        'candidate_id' => 'integer',
         'institution' => 'required',
         'city' => 'required',
         'Period' => 'required',
         'Level' => 'required'
     ];
-    
 
+
+	/**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->institution.' '.$this->Level.' ('.$this->Period.')';
+    }
+
+	/**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);
     }
 
+	/**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function certificate()
     {
         return $this->hasMany(Certificate::class);

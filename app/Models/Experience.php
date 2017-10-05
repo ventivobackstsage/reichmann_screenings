@@ -21,7 +21,8 @@ class Experience extends Model
         'candidate_id',
         'Company',
         'Period',
-        'Position'
+        'Position',
+        'info'
     ];
 
     /**
@@ -42,7 +43,7 @@ class Experience extends Model
      * @var array
      */
     public static $rules = [
-        'candidate_id' => 'required',
+        'candidate_id' => 'integer',
         'Company' => 'required',
         'Period' => 'required',
         'Position' => 'required'

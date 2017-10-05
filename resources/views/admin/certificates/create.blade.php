@@ -28,7 +28,7 @@ Certificates
             </h4></div>
         <br />
         <div class="panel-body">
-        {!! Form::open(['route' => 'admin.certificates.store']) !!}
+        {!! Form::open(['route' => 'admin.certificates.store','files' => true]) !!}
 
             @include('admin.certificates.fields')
 

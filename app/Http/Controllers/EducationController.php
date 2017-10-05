@@ -7,6 +7,7 @@ use App\Http\Requests\CreateEducationRequest;
 use App\Http\Requests\UpdateEducationRequest;
 use App\Repositories\EducationRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Education;
@@ -34,7 +35,14 @@ class EducationController extends InfyOmBaseController
     {
 
         $this->educationRepository->pushCriteria(new RequestCriteria($request));
-        $education = $this->educationRepository->all();
+
+        if(Sentinel::inRole('admin'))
+            $education = $this->educationRepository->all();
+        elseif (Sentinel::inRole('candidate')){
+            $education = Sentinel::getUser()->candidate->education;
+        }
+
+
         return view('admin.education.index')
             ->with('education', $education);
     }
@@ -59,6 +67,8 @@ class EducationController extends InfyOmBaseController
     public function store(CreateEducationRequest $request)
     {
         $input = $request->all();
+
+        $input['candidate_id'] = Sentinel::getUser()->candidate->id;
 
         $education = $this->educationRepository->create($input);
 
