@@ -3,14 +3,14 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            Josh Admin
-        @endcomponent
+            Reichmann Asset Management Screenings
+@endcomponent
     @endslot
 
     {{-- Body --}}
 # Hello  {!! $user->user_name !!},<br>
 
-Welcome to SiteNameHere! Please click on the following link to confirm your SiteNameHere account:<br />
+Welcome to Reichmann Asset Management Screenings! Please click on the following link to confirm your Reichmann Asset Management Screenings account:<br />
 @component('mail::button', ['url' =>  $user->activationUrl  ])
     Activate Account
 @endcomponent
