@@ -76,7 +76,8 @@ Users List
             processing: true,
             serverSide: true,
             ajax: '{!! route('admin.users.data') !!}',
-            columns;: [
+            columns;:
+	    [
                 { data: 'id', name: 'id' },
                 { data: 'first_name', name: 'first_name' },
                 { data: 'last_name', name: 'last_name' },
