@@ -76,7 +76,7 @@ Users List
             processing: true,
             serverSide: true,
             ajax: '{!! route('admin.users.data') !!}',
-            columns;:
+            columns:
 	    [
                 { data: 'id', name: 'id' },
                 { data: 'first_name', name: 'first_name' },
@@ -92,7 +92,7 @@ Users List
                 $(this).updateLivicon();
             });
         } );
-    });;
+    });
 
 </script>
 
