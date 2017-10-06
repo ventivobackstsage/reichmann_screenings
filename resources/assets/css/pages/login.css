@@ -386,8 +386,8 @@ p.login.button, p.signin.button {
 }
 
 .black_bg {
-    background: #515763 !important;
-    color: #dfdfdf;
+    /*background: #515763 !important;
+    color: #dfdfdf;*/
     padding-top: 10px !important;
 }
 
