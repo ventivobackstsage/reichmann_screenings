@@ -86,6 +86,7 @@ class CandidateController extends InfyOmBaseController
 
 		    $user->first_name = $request->get('first_name');
 		    $user->last_name = $request->get('last_name');
+		    $user->phone = $request->get('phone');
 		    $user->save();
 
 		    //add user to 'User' group
@@ -94,7 +95,7 @@ class CandidateController extends InfyOmBaseController
 			    $role->users()->attach($user);
 		    }
 
-		    $input = $request->except('_token', 'first_name', 'last_name', 'password', 'email', 'password_confirm', 'group', 'activate', 'position', 'reason');
+		    $input = $request->except('_token', 'first_name', 'last_name', 'password', 'email', 'password_confirm', 'group', 'activate', 'position', 'reason', 'phone');
 
 		    $input['user_id'] = $user->id;
 

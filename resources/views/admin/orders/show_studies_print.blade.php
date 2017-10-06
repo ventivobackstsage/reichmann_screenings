@@ -4,13 +4,9 @@
                     <p><strong>Location</strong>: {!! $education->city !!}</p>
                     <p><strong>Period</strong>: {!! $education->Period !!}</p>
                     <p><strong>Type</strong>: {!! $education->Level !!}</p>
-                    <ul class="list-group hidden-print">
-                        @php
-                        $index = 0
-                        @endphp
+
                         @foreach ($education->certificate as $certificate)
-                        <li class="list-group-item"><a href="{{ asset("$certificate->path") }}" target="_blank">Attachment {{++$index}}</a>  </li>
+                        <img width="100%" src="{{ asset("$certificate->path") }}"></img>
                         @endforeach
-                    </ul>
                     <hr>
                 </div>

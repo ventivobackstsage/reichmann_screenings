@@ -135,10 +135,10 @@ a, a:hover, li.active a {
 .right-side > .content-header > .breadcrumb a {
     color : #333;
 }
-/* skin-josh logo */
+/* skin-josh logo
 .skin-josh .logo {
     background-color : #515763;
-}
+} */
 .skin-josh .logo > h1 {
     margin-top     : 0;
     font-size      : 40px;

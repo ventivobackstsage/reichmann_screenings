@@ -43,11 +43,19 @@
 	</div>
 </div>
 
+<!-- Phone Field -->
+<div class="form-group col-sm-12">
+	{!! Form::label('phone', 'Phone:', ['class' => 'col-sm-2 control-label']) !!}
+	<div class="col-sm-10">
+		{!! Form::text('phone', null, ['class' => 'form-control', 'required']) !!}
+	</div>
+</div>
+
 <!-- Address Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('address', 'Address:', ['class' => 'col-sm-2 control-label']) !!}
+	{!! Form::label('address', 'Address:', ['class' => 'col-sm-2 control-label']) !!}
 	<div class="col-sm-10">
-    {!! Form::text('address', null, ['class' => 'form-control', 'required']) !!}
+		{!! Form::text('address', null, ['class' => 'form-control', 'required']) !!}
 	</div>
 </div>
 

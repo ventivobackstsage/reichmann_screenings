@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JoshController;
 use App\Http\Requests\UserRequest;
+use App\Models\Company;
 use App\User;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use File;
@@ -111,6 +112,8 @@ class UsersController extends JoshController
      */
     public function store(UserRequest $request)
     {
+
+        //dd($request->all());
         $data = new stdClass();
         //upload image
         if ($file = $request->file('pic_file')) {
@@ -125,7 +128,7 @@ class UsersController extends JoshController
 
         try {
             // Register the user
-            $user = Sentinel::register($request->except('_token', 'password_confirm', 'group', 'activate', 'pic_file'), $activate);
+            $user = Sentinel::register($request->except('_token', 'password_confirm', 'group', 'activate', 'pic_file','company'), $activate);
 
             //add user to 'User' group
             $role = Sentinel::findRoleById($request->get('group'));
@@ -133,7 +136,16 @@ class UsersController extends JoshController
                 $role->users()->attach($user);
             }
             //check for activation and send activation mail if not activated by default
-            if (!$request->get('activate')) {
+
+            $comp_slug = str_slug($request->get('company'),'-');
+            $company = Company::firstOrNew(['slug'=> $comp_slug]);
+            $company->name = $request->get('company');
+            $company->save();
+
+            $user->entity_id = $company->id;
+            $user->save();
+
+            if (!$activate) {
                 // Data to be used on the email view
                 $data->user_name =$user->first_name .' '. $user->last_name;
                 $data->activationUrl = URL::route('activate', [$user->id, Activation::create($user)->code]);
@@ -290,7 +302,7 @@ class UsersController extends JoshController
 
             $status = $activation = Activation::completed($user);
 
-            if ($request->get('activate') != $status) {
+            /*if ($request->get('activate') != $status) {
                 if ($request->get('activate')) {
                     $activation = Activation::exists($user);
                     if ($activation) {
@@ -310,7 +322,7 @@ class UsersController extends JoshController
 
                 }
             }
-
+*/
             // Was the user updated?
             if ($user->save()) {
                 // Prepare the success message

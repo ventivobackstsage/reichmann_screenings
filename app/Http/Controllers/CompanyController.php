@@ -60,6 +60,8 @@ class CompanyController extends InfyOmBaseController
     {
         $input = $request->all();
 
+        $input['slug'] = str_slug($request->get('name'),'-');
+
         $company = $this->companyRepository->create($input);
 
         Flash::success('Company saved successfully.');
@@ -119,7 +121,8 @@ class CompanyController extends InfyOmBaseController
     {
         $company = $this->companyRepository->findWithoutFail($id);
 
-        
+        $input = $request->all();
+        $input['slug'] = str_slug($request->get('name'),'-');
 
         if (empty($company)) {
             Flash::error('Company not found');
@@ -127,7 +130,7 @@ class CompanyController extends InfyOmBaseController
             return redirect(route('companies.index'));
         }
 
-        $company = $this->companyRepository->update($request->all(), $id);
+        $company = $this->companyRepository->update($input, $id);
 
         Flash::success('Company updated successfully.');
 

@@ -9,6 +9,8 @@ use App\Models\Company;
 use App\Models\Update;
 use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use ConsoleTVs\Invoices\Classes\Invoice;
+use PDF;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -94,6 +96,65 @@ class OrderController extends InfyOmBaseController
         }
 
         return view('admin.orders.show')->with('order', $order);
+    }
+
+    /**
+     * Create PDF and print
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function print($id)
+    {
+        $order = $this->orderRepository->findWithoutFail($id);
+
+        if (empty($order)) {
+            Flash::error('Order not found');
+
+            return redirect(route('orders.index'));
+        }
+
+        $pdf = PDF::loadView('admin.orders.print',['order'=>$order]);
+
+        return $pdf->download('order'.$id.'.pdf');
+    }
+
+    /**
+     * Create invoice and download
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function invoice($id)
+    {
+        $order = $this->orderRepository->findWithoutFail($id);
+
+        if (empty($order)) {
+            Flash::error('Order not found');
+
+            return redirect(route('orders.index'));
+        }
+        
+        $price = ($order->reason=='fire')?150:(($order->position=='regular')?150:250);
+
+        $invoice = Invoice::make()
+                    ->addItem($order->position.' '.$order->reason,$price,1)
+                    ->logo(asset('assets/img/logo@2x.png'))
+                    ->number($order->id)
+                    ->tax(19)
+                    ->customer([
+                        'name'        => $order->company->name,
+                        'phone'       => $order->company->phone,
+                        'address'     => $order->company->address,
+                        'reg_com'     => $order->company->reg_com,
+                        'vat_code'    => $order->company->vat_code,
+                    ])
+                    ->show('invoice');
+
+
+        //return $pdf->download('order'.$id.'.pdf');
     }
 
     /**

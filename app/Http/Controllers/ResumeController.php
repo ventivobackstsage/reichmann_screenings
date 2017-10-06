@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Requests\CreateUpdateRequest;
 use App\Http\Requests\UpdateUpdateRequest;
+use App\Repositories\OrderRepository;
 use App\Repositories\UpdateRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Update;
@@ -17,8 +19,12 @@ use Response;
 class ResumeController extends InfyOmBaseController
 {
 
-    public function __construct()
+    /** @var  OrderRepository */
+    private $orderRepository;
+
+    public function __construct(OrderRepository $orderRepo)
     {
+        $this->orderRepository = $orderRepo;
     }
 
     /**
@@ -29,7 +35,18 @@ class ResumeController extends InfyOmBaseController
      */
     public function index(Request $request)
     {
-        return view('admin.resume.index');
+
+        $id = Sentinel::getUser()->candidate->orders->id;
+
+        $order = $this->orderRepository->findWithoutFail($id);
+
+        if (empty($order)) {
+            Flash::error('Order not found');
+
+            return redirect(route('admin.dashboard'));
+        }
+
+        return view('admin.orders.show')->with('order', $order);
     }
 
 }

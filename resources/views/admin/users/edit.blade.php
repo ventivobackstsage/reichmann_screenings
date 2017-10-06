@@ -55,7 +55,7 @@
 
                                 {!! Form::model($user, ['url' => URL::to('admin/users/'. $user->id.''), 'method' => 'put', 'class' => 'form-horizontal','id'=>'commentForm', 'enctype'=>'multipart/form-data','files'=> true]) !!}
                                     {{ csrf_field() }}
-
+                                <input type="hidden" name="groups[]" value="{!! Sentinel::getUser()->roles()->first()->id !!}" />
                                     <div id="rootwizard">
                                         <ul>
                                             <li><a href="#tab1" data-toggle="tab">User Profile</a></li>
@@ -92,6 +92,15 @@
                                                                value="{!! old('email', $user->email) !!}"/>
                                                     </div>
                                                     {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                                                </div>
+
+                                                <div class="form-group {{ $errors->first('phone', 'has-error') }}">
+                                                    <label for="phone" class="col-sm-2 control-label">Phone *</label>
+                                                    <div class="col-sm-10">
+                                                        <input id="phone" name="phone" placeholder="Phone" type="text"
+                                                               class="form-control required phone" value="{!! old('phone', $user->phone) !!}"/>
+                                                        {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group {{ $errors->first('password', 'has-error') }}">
@@ -145,24 +154,5 @@
     <script src="{{ asset('assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendors/datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/edituser.js') }}"></script>
-    <script>
-        function formatState (state) {
-            if (!state.id) { return state.text; }
-            var $state = $(
-                '<span><img src="{{asset('
-            assets / img / countries_flags;;
-            ')}}/' + state.element.value.toLowerCase() + '.png" class="img-flag" width="20px" height="20px" /> ' + state.text + '</span>';
-        )
-            return $state;
 
-}
-$(".country_field").select2({
-    templateResult: formatState,
-    templateSelection: formatState,
-    placeholder: "select a country",
-    theme:"bootstrap"
-});
-
-
-</script>
 @stop

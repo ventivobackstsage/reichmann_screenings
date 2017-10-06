@@ -25,11 +25,11 @@
                  <a href="{{ route('admin.orders.show', $order->id) }}">
                      <i class="livicon" data-name="info" data-size="22" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="view order"></i>
                  </a>
-	            <a href="{{ route('admin.orders.edit', $order->id) }}">
-		            <i class="livicon" data-name="eye-open" data-size="22" data-loop="true" data-c="#00bc8c" data-hc="#00bc8c" title="download order"></i>
+	            <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank">
+		            <i class="livicon" data-name="download" data-size="22" data-loop="true" data-c="#F89A14" data-hc="#F89A14" title="download order"></i>
 	            </a>
-	            <a href="{{ route('admin.orders.edit', $order->id) }}">
-		            <i class="livicon" data-name="printer" data-size="22" data-loop="true" data-c="#F89A14" data-hc="#F89A14" title="print order"></i>
+	            <a href="{{ route('admin.orders.invoice', $order->id) }}" target="_blank">
+		            <i class="livicon" data-name="money" data-size="22" data-loop="true" data-c="#F89A14" data-hc="#F89A14" title="invoice"></i>
 	            </a>
             </td>
         </tr>

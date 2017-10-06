@@ -20,7 +20,11 @@ class Company extends Model
 
     public $fillable = [
         'slug',
-        'name'
+        'name',
+        'address',
+        'reg_com',
+        'vat_code',
+        'phone'
     ];
 
     /**
@@ -30,7 +34,11 @@ class Company extends Model
      */
     protected $casts = [
         'slug' => 'string',
-        'name' => 'string'
+        'name' => 'string',
+        'address' => 'string',
+        'reg_com' => 'string',
+        'vat_code' => 'string',
+        'phone' => 'string'
     ];
 
     /**

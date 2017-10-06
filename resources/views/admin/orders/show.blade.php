@@ -75,7 +75,9 @@ Orders
             </div>
         </div>
   </div>
-    <div class="row">
+
+    @if (Sentinel::check() && Sentinel::inRole('admin'))
+    <div class="row hidden-print">
 
         <div class="col-lg-4">
             <div class="panel panel-success">
@@ -132,7 +134,7 @@ Orders
                                 </div>
                                 <div class="timeline-panel" style="display:inline-block;">
                                     <div class="timeline-heading">
-                                        <h4 class="timeline-title">New Status: <strong>{{ $updates->status }}</strong></h4>
+                                        <h4 class="timeline-title">Status Changed: <strong>{{ $updates->status }}</strong></h4>
                                         <h5 class="timeline-title">{{ $updates->user->first_name.' '.$updates->user->last_name}}</h5>
                                         <p>
                                             <small class="text-muted">
@@ -154,5 +156,6 @@ Orders
             </div>
         </div>
     </div>
+    @endif
 </section>
 @stop

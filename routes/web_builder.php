@@ -42,7 +42,9 @@ Route::put('orders/{orders}', ['as'=> 'orders.update', 'uses' => 'OrderControlle
 Route::patch('orders/{orders}', ['as'=> 'orders.update', 'uses' => 'OrderController@update']);
 Route::get('orders/{id}/delete', array('as' => 'orders.delete', 'uses' => 'OrderController@getDelete'));
 Route::get('orders/{id}/confirm-delete', array('as' => 'orders.confirm-delete', 'uses' => 'OrderController@getModalDelete'));
-Route::get('orders/{orders}', ['as'=> 'orders.show', 'uses' => 'OrderController@show']);
+	Route::get('orders/{orders}', ['as'=> 'orders.show', 'uses' => 'OrderController@show']);
+	Route::get('orders/{orders}/print', ['as'=> 'orders.print', 'uses' => 'OrderController@print']);
+	Route::get('orders/{orders}/invoice', ['as'=> 'orders.invoice', 'uses' => 'OrderController@invoice']);
 Route::get('orders/{orders}/edit', ['as'=> 'orders.edit', 'uses' => 'OrderController@edit']);
 
 });

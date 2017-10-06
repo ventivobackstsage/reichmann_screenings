@@ -53,7 +53,7 @@ class Order extends Model
 
     public function updates()
     {
-        return $this->hasMany(Update::class);
+        return $this->hasMany(Update::class)->orderByDesc('id');
     }
 
     public function company()
