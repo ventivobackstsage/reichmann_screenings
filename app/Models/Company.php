@@ -24,7 +24,8 @@ class Company extends Model
         'address',
         'reg_com',
         'vat_code',
-        'phone'
+	    'phone',
+	    'discount'
     ];
 
     /**
@@ -38,7 +39,8 @@ class Company extends Model
         'address' => 'string',
         'reg_com' => 'string',
         'vat_code' => 'string',
-        'phone' => 'string'
+        'phone' => 'string',
+        'discount' => 'integer'
     ];
 
     /**
