@@ -20,6 +20,11 @@
 </div>
 
 <div class="form-group col-sm-12">
+    {!! Form::label('discount', 'Discount(%):') !!}
+    {!! Form::text('discount', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group col-sm-12">
     {!! Form::label('phone', 'Phone:') !!}
     {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 </div>
