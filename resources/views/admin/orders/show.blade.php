@@ -76,7 +76,7 @@ Orders
         </div>
   </div>
 
-    @if (Sentinel::check() && Sentinel::inRole('admin'))
+    @if (Sentinel::check() && (Sentinel::inRole('admin')||Sentinel::inRole('company')))
     <div class="row hidden-print">
 
         <div class="col-lg-4">
@@ -95,7 +95,11 @@ Orders
                     {!! Form::model($order, ['route' => ['admin.orders.update', $order->id], 'method' => 'patch']) !!}
                     <!-- Status Id Field -->
                     <div class="form-group col-sm-12">
-                            {!! Form::select('status', ['pending'=>'pending','viewed'=>'viewed','analyzed'=>'analyzed','done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2']) !!}
+                        @if (Sentinel::inRole('admin'))
+                            {!! Form::select('status', ['pending'=>'pending','viewed'=>'viewed','analyzed'=>'analyzed','escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2']) !!}
+                        @elseif (Sentinel::inRole('company'))
+                            {!! Form::select('status', ['escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2']) !!}
+                        @endif
                     </div>
                     <!-- Info Field -->
                     <div class="form-group col-sm-12">
