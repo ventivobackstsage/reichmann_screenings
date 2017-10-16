@@ -140,7 +140,7 @@ class OrderController extends InfyOmBaseController
         $price = ($order->reason=='fire')?150:(($order->position=='regular')?150:250);
 
         $invoice = Invoice::make()
-                    ->addItem($order->position.' '.$order->reason,$price,1)
+                    ->addItem($order->candidate->user->first_name.' '.$order->candidate->user->last_name,$price,1)
                     ->logo(asset('assets/img/logo@2x.png'))
                     ->number($order->id)
                     ->tax(19)

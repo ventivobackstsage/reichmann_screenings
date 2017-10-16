@@ -39,7 +39,7 @@ class Certificate extends Model
      */
     public static $rules = [
         'education_id' => 'required',
-        'image' => 'image|mimes:jpeg,png,jpg',
+        'image' => 'image|mimes:jpeg,png,jpg|size:256000',
     ];
 
 

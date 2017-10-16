@@ -57,9 +57,9 @@ class Company extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function user()
-    {
-        return $this->hasMany(User::class,'entity_id');
-    }
+	public function user()
+	{
+		return $this->hasMany(User::class,'entity_id');
+	}
 
 }
