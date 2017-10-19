@@ -43,7 +43,7 @@
     </a>
 </li>
 @endif
-@if (Sentinel::check() && (Sentinel::inRole('candidate')))
+{{-- @if (Sentinel::check() && (Sentinel::inRole('candidate')))
 <li class="{{ Request::is('certificates*') ? 'active' : '' }}">
     <a href="{!! route('admin.certificates.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
@@ -51,7 +51,7 @@
                Certificates
     </a>
 </li>
-@endif
+@endif --}}
 @if (Sentinel::check() && (Sentinel::inRole('candidate')))
 <li class="{{ Request::is('experiences*') ? 'active' : '' }}">
     <a href="{!! route('admin.experiences.index') !!}">
@@ -85,3 +85,22 @@
 </ul>
 </li>
 @endif
+
+@if (Sentinel::check() && (Sentinel::inRole('candidate')))
+<li class="{{ Request::is('others*') ? 'active' : '' }}">
+    <a href="{!! route('admin.others.index') !!}">
+    <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
+               data-loop="true"></i>
+               Others
+    </a>
+</li>
+
+<li class="{{ Request::is('attachements*') ? 'active' : '' }}">
+    <a href="{!! route('admin.attachements.index') !!}">
+    <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
+               data-loop="true"></i>
+               Attachements
+    </a>
+</li>
+@endif
+

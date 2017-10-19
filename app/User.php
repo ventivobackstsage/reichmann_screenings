@@ -1,4 +1,5 @@
 <?php namespace App;
+use App\Models\Attachement;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Update;
@@ -58,9 +59,14 @@ class User extends EloquentUser {
 		return $this->hasMany(Update::class);
 	}
 
+	public function attachements()
+	{
+		return $this->hasMany(Attachement::class);
+	}
+
 	public function getFullNameAttribute()
 	{
-		return "FullName";
+		return $this->first_name.' '.$this->last_name;
 	}
 
 }

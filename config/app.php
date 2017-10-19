@@ -196,6 +196,8 @@ return [
         \InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+	    Barryvdh\Debugbar\ServiceProvider::class,
+
 
     ],
 
@@ -259,6 +261,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
 
     ],

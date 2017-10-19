@@ -74,6 +74,14 @@ Orders
                 @each('admin.orders.show_experience', $order->candidate->experience, 'experience','admin.orders.show_experience_empty')
             </div>
         </div>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <h2>OTHER</h2>
+                <hr>
+
+                @each('admin.orders.show_other', $order->candidate->other, 'other','admin.orders.show_other_empty')
+            </div>
+        </div>
   </div>
 
     @if (Sentinel::check() && (Sentinel::inRole('admin')||Sentinel::inRole('company')))

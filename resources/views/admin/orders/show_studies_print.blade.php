@@ -5,8 +5,8 @@
                     <p><strong>Period</strong>: {!! $education->Period !!}</p>
                     <p><strong>Type</strong>: {!! $education->Level !!}</p>
 
-                        @foreach ($education->certificate as $certificate)
-                        <img width="100%" src="{{ asset("$certificate->path") }}"></img>
+                        @foreach ($education->attachements as $attachement)
+                        <img width="100%" src="{{ asset("$attachement->path") }}"></img>
                         @endforeach
                     <hr>
                 </div>

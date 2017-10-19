@@ -61,10 +61,15 @@ class Candidate extends Model
         return $this->hasOne(Order::class);
     }
 
-    public function experience()
-    {
-        return $this->hasMany(Experience::class);
-    }
+	public function experience()
+	{
+		return $this->hasMany(Experience::class);
+	}
+
+	public function other()
+	{
+		return $this->hasMany(Other::class);
+	}
 
     public function education()
     {

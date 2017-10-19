@@ -18,7 +18,7 @@
             display: none;
         }
         .txtFieldName{
-        text-transform: capitalize;
+        /*text-transform: capitalize;*/
         }
     </style>
 @stop
@@ -565,9 +565,7 @@
 
             $(document).ready(function () {
                 var htmlStr = '<tr class="item" style="display: table-row;"></tr>';
-                var commonComponent = $(htmlStr).filter("tr").load('{!! url('
-                ') !!}/admin/field_template';
-                )
+                var commonComponent = $(htmlStr).filter("tr").load('{!! url('') !!}/admin/field_template');
                 $("#btnAdd").on("click", function () {
                     var item = $(commonComponent).clone();
                     initializeCheckbox(item);

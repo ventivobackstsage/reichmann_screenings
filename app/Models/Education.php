@@ -53,12 +53,20 @@ class Education extends Model
 
 
 	/**
-     * @return string
-     */
-    public function getFullNameAttribute()
-    {
-        return $this->institution.' '.$this->Level.' ('.$this->Period.')';
-    }
+	 * @return string
+	 */
+	public function getFullNameAttribute()
+	{
+		return $this->institution.' '.$this->Level.' ('.$this->Period.')';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIdCategoryAttribute()
+	{
+		return Education::class.'_'.$this->id;
+	}
 
 	/**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -75,5 +83,10 @@ class Education extends Model
     {
         return $this->hasMany(Certificate::class);
     }
+
+	public function attachements()
+	{
+		return $this->morphMany(Attachement::class,'imageable');
+	}
 
 }

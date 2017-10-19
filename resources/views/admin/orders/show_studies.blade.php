@@ -8,8 +8,8 @@
                         @php
                         $index = 0
                         @endphp
-                        @foreach ($education->certificate as $certificate)
-                        <li class="list-group-item"><a href="{{ asset("$certificate->path") }}" target="_blank">Attachment {{++$index}}</a>  </li>
+                        @foreach ($education->attachements as $attachement)
+                        <li class="list-group-item"><a href="{{ asset("$attachement->path") }}" target="_blank">Attachment {{++$index}}</a>  </li>
                         @endforeach
                     </ul>
                     <hr>

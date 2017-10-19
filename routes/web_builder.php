@@ -115,3 +115,33 @@ Route::get('experiences/{experiences}/edit', ['as'=> 'experiences.edit', 'uses' 
 	});
 
 
+
+
+Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
+
+Route::get('others', ['as'=> 'others.index', 'uses' => 'OtherController@index']);
+Route::post('others', ['as'=> 'others.store', 'uses' => 'OtherController@store']);
+Route::get('others/create', ['as'=> 'others.create', 'uses' => 'OtherController@create']);
+Route::put('others/{others}', ['as'=> 'others.update', 'uses' => 'OtherController@update']);
+Route::patch('others/{others}', ['as'=> 'others.update', 'uses' => 'OtherController@update']);
+Route::get('others/{id}/delete', array('as' => 'others.delete', 'uses' => 'OtherController@getDelete'));
+Route::get('others/{id}/confirm-delete', array('as' => 'others.confirm-delete', 'uses' => 'OtherController@getModalDelete'));
+Route::get('others/{others}', ['as'=> 'others.show', 'uses' => 'OtherController@show']);
+Route::get('others/{others}/edit', ['as'=> 'others.edit', 'uses' => 'OtherController@edit']);
+
+});
+
+
+Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
+
+Route::get('attachements', ['as'=> 'attachements.index', 'uses' => 'AttachementController@index']);
+Route::post('attachements', ['as'=> 'attachements.store', 'uses' => 'AttachementController@store']);
+Route::get('attachements/create', ['as'=> 'attachements.create', 'uses' => 'AttachementController@create']);
+Route::put('attachements/{attachements}', ['as'=> 'attachements.update', 'uses' => 'AttachementController@update']);
+Route::patch('attachements/{attachements}', ['as'=> 'attachements.update', 'uses' => 'AttachementController@update']);
+Route::get('attachements/{id}/delete', array('as' => 'attachements.delete', 'uses' => 'AttachementController@getDelete'));
+Route::get('attachements/{id}/confirm-delete', array('as' => 'attachements.confirm-delete', 'uses' => 'AttachementController@getModalDelete'));
+Route::get('attachements/{attachements}', ['as'=> 'attachements.show', 'uses' => 'AttachementController@show']);
+Route::get('attachements/{attachements}/edit', ['as'=> 'attachements.edit', 'uses' => 'AttachementController@edit']);
+
+});

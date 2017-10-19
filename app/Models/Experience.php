@@ -49,8 +49,29 @@ class Experience extends Model
         'Position' => 'required'
     ];
 
+	/**
+	 * @return string
+	 */
+	public function getIdCategoryAttribute()
+	{
+		return Experience::class.'_'.$this->id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFullNameAttribute()
+	{
+		return $this->Company.' '.$this->Position.' ('.$this->Period.')';
+	}
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);
     }
+
+	public function attachements()
+	{
+		return $this->morphMany(Attachement::class,'imageable');
+	}
 }
