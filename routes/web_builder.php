@@ -34,7 +34,8 @@ Route::get('candidates/{candidates}/edit', ['as'=> 'candidates.edit', 'uses' => 
 
 Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.'), function () {
 
-Route::get('orders', ['as'=> 'orders.index', 'uses' => 'OrderController@index']);
+	Route::get('orders', ['as'=> 'orders.index', 'uses' => 'OrderController@index']);
+	Route::get('orders/data', ['as'=> 'orders.data', 'uses' => 'OrderController@data']);
 Route::post('orders', ['as'=> 'orders.store', 'uses' => 'OrderController@store']);
 Route::get('orders/create', ['as'=> 'orders.create', 'uses' => 'OrderController@create']);
 Route::put('orders/{orders}', ['as'=> 'orders.update', 'uses' => 'OrderController@update']);

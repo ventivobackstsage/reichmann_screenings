@@ -35,10 +35,8 @@ class UsersController extends JoshController
         return view('admin.users.index', compact('users'));
     }
 
-    /*
-     * Pass data through ajax call
-     */
     /**
+     * Pass data through ajax call
      * @return mixed
      */
     public function data()

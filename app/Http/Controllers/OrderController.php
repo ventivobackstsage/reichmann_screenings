@@ -18,6 +18,7 @@ use App\Models\Order;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Yajra\DataTables\DataTables;
 
 class OrderController extends InfyOmBaseController
 {
@@ -49,6 +50,39 @@ class OrderController extends InfyOmBaseController
         return view('admin.orders.index')
             ->with('orders', $orders);
     }
+
+	/**
+	 * Pass data through ajax call
+	 * @return mixed
+	 */
+	public function data()
+	{
+		$orders = Order::get();
+
+		return DataTables::of($orders)
+			->editColumn('updated_at',function(Order $order) {
+				return $order->updated_at->diffForHumans();
+			})
+			->editColumn('company',function(Order $order) {
+				return $order->company->name;
+			})
+			->editColumn('candidate',function(Order $order) {
+				return $order->candidate->user->first_name.' '.$order->candidate->user->last_name;
+			})
+			->editColumn('email',function(Order $order) {
+				return $order->candidate->user->email;
+			})
+			->addColumn('actions',function($order) {
+
+				$actions = '<a href='. route('admin.orders.show', $order->id) .'><i class="livicon" data-name="edit" data-size="22" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="edit order"></i></a>
+	            <a href='. route('admin.orders.print', $order->id) .' target="_blank"><i class="livicon" data-name="download" data-size="22" data-loop="true" data-c="#F89A14" data-hc="#F89A14" title="download order"></i></a>
+	            <a href='. route('admin.orders.invoice', $order->id) .' target="_blank"><i class="livicon" data-name="money" data-size="22" data-loop="true" data-c="#F89A14" data-hc="#F89A14" title="invoice"></i></a>';
+
+				return $actions;
+			})
+			->rawColumns(['actions'])
+			->make(true);
+	}
 
     /**
      * Show the form for creating a new Order.

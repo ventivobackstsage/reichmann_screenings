@@ -1,10 +1,14 @@
-@extends('admin./layouts/default')
+@extends('admin/layouts/default')
 
 @section('title')
 Orders
 @parent
 @stop
-
+{{-- page level styles --}}
+@section('header_styles')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/datatables/css/dataTables.bootstrap.css') }}" />
+<link href="{{ asset('assets/css/pages/tables.css') }}" rel="stylesheet" type="text/css" />
+@stop
 {{-- Page content --}}
 @section('content')
 <section class="content-header">
@@ -34,10 +38,63 @@ Orders
             </div>
             <br />
             <div class="panel-body table-responsive">
-                 @include('admin.orders.table')
-                 
+                {{-- @include('admin.orders.table') --}}
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered " id="table">
+                        <thead>
+                        <tr class="filters">
+                            <th>ID</th>
+                            <th>Company</th>
+                            <th>Candidate</th>
+                            <th>Email</th>
+                            <th>Received</th>
+                            <th>Status</th>
+                            <th>Updated</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
  </div>
 </section>
+@stop
+{{-- page level scripts --}}
+@section('footer_scripts')
+<script type="text/javascript" src="{{ asset('assets/vendors/datatables/js/jquery.dataTables.js') }}" ></script>
+<script type="text/javascript" src="{{ asset('assets/vendors/datatables/js/dataTables.bootstrap.js') }}" ></script>
+<script>
+	$(function() {
+		var table = $('#table').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax: '{!! route('admin.orders.data') !!}',
+			columns:
+		[
+			{ data: 'id', name: 'id' },
+			{ data: 'company', name: 'company' },
+			{ data: 'candidate', name: 'candidate' },
+			{ data: 'email', name: 'email' },
+			{ data: 'created_at', name: 'created_at'},
+			{ data: 'status', name: 'status'},
+			{ data: 'updated_at', name:'updated_at'},
+			{ data: 'actions', name: 'actions', orderable: false, searchable: false }
+		]
+	})
+		table.on( 'draw', function () {
+			$('.livicon').each(function(){
+				$(this).updateLivicon();
+			});
+		} );
+	});
+
+</script>
 @stop
