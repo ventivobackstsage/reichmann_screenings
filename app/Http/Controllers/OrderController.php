@@ -175,33 +175,27 @@ class OrderController extends InfyOmBaseController
         
         $price = ($order->reason=='fire')?150:(($order->position=='regular')?150:250);
 
-        /*$invoice = Invoice::make()
-                    ->addItem($order->candidate->user->first_name.' '.$order->candidate->user->last_name,$price,1)
-                    ->logo(asset('assets/img/logo@2x.png'))
-                    ->number($order->id)
-                    ->tax(19)
-                    ->customer([
-                        'name'        => $order->company->name,
-                        'phone'       => $order->company->phone,
-                        'address'     => $order->company->address,
-                        'reg_com'     => $order->company->reg_com,
-                        'vat_code'    => $order->company->vat_code,
-                    ])
-                    ->show('invoice');
-*/
+        if(empty($order->sb_number)){
+	        $invoice = Invoice::make()
+		        ->addItem($order->candidate->user->first_name.' '.$order->candidate->user->last_name,$price,1)
+		        ->logo(asset('assets/img/logo@2x.png'))
+		        ->number($order->id)
+		        ->tax(19)
+		        ->customer([
+			        'name'        => $order->company->name,
+			        'phone'       => $order->company->phone,
+			        'address'     => $order->company->address,
+			        'reg_com'     => $order->company->reg_com,
+			        'vat_code'    => $order->company->vat_code,
+		        ])
+		        ->show('invoice');
+        }else{
+	        $smartBill = new SmartBillCloudRestClientClass('office@cohen.ro','af3930ccb2c9a7c3e0b24d538f648837');
 
-        //dd($order->sb_name,$order->sb_number);
+	        $pdf = $smartBill->PDFInvoice("RO30184266",$order->sb_name,str_pad($order->sb_number, 4, "0", STR_PAD_LEFT));
 
-	    $smartBill = new SmartBillCloudRestClientClass('office@cohen.ro','af3930ccb2c9a7c3e0b24d538f648837');
-
-	    $pdf = $smartBill->PDFInvoice("RO30184266",$order->sb_name,str_pad($order->sb_number, 4, "0", STR_PAD_LEFT));
-
-	    /*
-	    Storage::disk('public')->put('invoice_'.$order->sb_name.str_pad($order->sb_number, 4, "0", STR_PAD_LEFT).'.pdf', $pdf);
-
-	    $file = Storage::disk('local')->get('invoice_'.$order->sb_name.str_pad($order->sb_number, 4, "0", STR_PAD_LEFT).'.pdf');
-	    */
-	    return response($pdf,200,array('Content-Type' => 'application/pdf', 'Content-Disposition' =>  'inline; filename="invoice.pdf"'));
+	        return response($pdf,200,array('Content-Type' => 'application/pdf', 'Content-Disposition' =>  'inline; filename="invoice.pdf"'));
+        }
     }
 
     /**
