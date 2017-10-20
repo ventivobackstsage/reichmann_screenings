@@ -151,7 +151,9 @@ class OrderController extends InfyOmBaseController
 
         $pdf = PDF::loadView('admin.orders.print',['order'=>$order]);
 
-        return $pdf->download('order'.$id.'.pdf');
+        return $pdf->stream('order'.$id.'.pdf');
+	    return view('admin.orders.print')->with('order', $order);
+
     }
 
     /**
