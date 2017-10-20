@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\SmartBillCloudRestClientClass;
+use App\Facades\SmartBill;
 use App\Http\Requests;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -10,6 +12,7 @@ use App\Models\Update;
 use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use ConsoleTVs\Invoices\Classes\Invoice;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
@@ -39,16 +42,7 @@ class OrderController extends InfyOmBaseController
     public function index(Request $request)
     {
 
-        $this->orderRepository->pushCriteria(new RequestCriteria($request));
-        $orders = array();
-        if(Sentinel::inRole('admin'))
-            $orders = $this->orderRepository->all();
-	    elseif (Sentinel::inRole('company')){
-		    $orders = Sentinel::getUser()->company->orders;
-	    }
-
-        return view('admin.orders.index')
-            ->with('orders', $orders);
+        return view('admin.orders.index');
     }
 
 	/**
@@ -57,7 +51,13 @@ class OrderController extends InfyOmBaseController
 	 */
 	public function data()
 	{
-		$orders = Order::get();
+		//$this->orderRepository->pushCriteria(new RequestCriteria($request));
+		$orders = array();
+		if(Sentinel::inRole('admin'))
+			$orders = $this->orderRepository->all();
+		elseif (Sentinel::inRole('company')){
+			$orders = Sentinel::getUser()->company->orders;
+		}
 
 		return DataTables::of($orders)
 			->editColumn('updated_at',function(Order $order) {
@@ -173,7 +173,7 @@ class OrderController extends InfyOmBaseController
         
         $price = ($order->reason=='fire')?150:(($order->position=='regular')?150:250);
 
-        $invoice = Invoice::make()
+        /*$invoice = Invoice::make()
                     ->addItem($order->candidate->user->first_name.' '.$order->candidate->user->last_name,$price,1)
                     ->logo(asset('assets/img/logo@2x.png'))
                     ->number($order->id)
@@ -186,9 +186,20 @@ class OrderController extends InfyOmBaseController
                         'vat_code'    => $order->company->vat_code,
                     ])
                     ->show('invoice');
+*/
 
+        //dd($order->sb_name,$order->sb_number);
 
-        //return $pdf->download('order'.$id.'.pdf');
+	    $smartBill = new SmartBillCloudRestClientClass('office@cohen.ro','af3930ccb2c9a7c3e0b24d538f648837');
+
+	    $pdf = $smartBill->PDFInvoice("RO30184266",$order->sb_name,str_pad($order->sb_number, 4, "0", STR_PAD_LEFT));
+
+	    /*
+	    Storage::disk('public')->put('invoice_'.$order->sb_name.str_pad($order->sb_number, 4, "0", STR_PAD_LEFT).'.pdf', $pdf);
+
+	    $file = Storage::disk('local')->get('invoice_'.$order->sb_name.str_pad($order->sb_number, 4, "0", STR_PAD_LEFT).'.pdf');
+	    */
+	    return response($pdf,200,array('Content-Type' => 'application/pdf', 'Content-Disposition' =>  'inline; filename="invoice.pdf"'));
     }
 
     /**

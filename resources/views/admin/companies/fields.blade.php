@@ -1,14 +1,17 @@
 <!-- Name Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <div class="form-group col-sm-12">
     {!! Form::label('address', 'Address:') !!}
     {!! Form::text('address', null, ['class' => 'form-control']) !!}
 </div>
-
+<div class="form-group col-sm-12">
+    {!! Form::label('vat_code', 'VAT Code:') !!}
+    {!! Form::text('vat_code', null, ['class' => 'form-control', 'required']) !!}
+</div>
 <div class="form-group col-sm-12">
     {!! Form::label('reg_com', 'Reg Com:') !!}
     {!! Form::text('reg_com', null, ['class' => 'form-control']) !!}
@@ -16,7 +19,7 @@
 
 <div class="form-group col-sm-12">
     {!! Form::label('vat_code', 'VAT Code:') !!}
-    {!! Form::text('vat_code', null, ['class' => 'form-control']) !!}
+    {!! Form::text('vat_code', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <div class="form-group col-sm-12">

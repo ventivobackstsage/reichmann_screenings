@@ -197,6 +197,7 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
+	    \App\Providers\SmartBillCloudRestClientServiceProvider::class
 
 
     ],
@@ -261,7 +262,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class
 
 
     ],

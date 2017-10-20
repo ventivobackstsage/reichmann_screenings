@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\SmartBillCloudRestClientClass;
 use App\Http\Requests;
 use App\Http\Requests\CreateCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
@@ -11,6 +12,7 @@ use App\Repositories\CandidateRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Candidate;
@@ -109,6 +111,57 @@ class CandidateController extends InfyOmBaseController
 		    $order['status'] = 'pending';
 
 		    $order = Order::create($order);
+
+		    $company = Sentinel::getUser()->company;
+
+		    $smartBill = new SmartBillCloudRestClientClass('office@cohen.ro','af3930ccb2c9a7c3e0b24d538f648837');
+
+			$products = array();
+			$products[] = array(
+				'name'              => $user->fullName,
+				'measuringUnitName' => "buc",
+				'currency'          => "EUR",
+				'quantity'          => 1,
+				'price'             => ($order->reason=='fire')?150:(($order->position=='regular')?150:250),
+				'isService'         => true
+
+			);
+
+			if($company->discount>0){
+				$products[] = array(
+					'name'              => "Discount",
+					'isDiscount'        => true,
+					'measuringUnitName' => "buc",
+					'currency'          => "EUR",
+					'numberOfItems'     => 1,
+					'discountType'      => 2,
+					'discountPercentage'=> 10,
+
+				);
+			}
+
+		    $invoice = array(
+			    'companyVatCode'=> "RO30184266",
+			    'client'        => array(
+				    'name'          => $company->name,
+				    'vatCode'       => $company->vat_code,
+				    'regCom'        => $company->reg_com,
+				    'phone'         => $company->phone,
+				    'address'       => $company->address,
+			    ),
+			    'seriesName'    => "RAM",
+			    'currency'      => "RON",
+			    'products'      => $products
+			    );
+
+		    try {
+    	        $response = $smartBill->createInvoice($invoice);
+			    $order->sb_name = $response['series'];
+			    $order->sb_number = $response['number'];
+			    $order->save();
+		    } catch (Exception $ex) {
+			    Flash::error($ex->getMessage());
+		    }
 
 		    Flash::success('Candidate create! \r\nYour order was placed.');
 

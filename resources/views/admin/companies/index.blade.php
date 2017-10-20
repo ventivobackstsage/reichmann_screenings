@@ -28,7 +28,7 @@ Companies
                 <h4 class="panel-title pull-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
                     Companies List
                 </h4>
-                <div class="pull-right hide">
+                <div class="pull-right">
                     <a href="{{ route('admin.companies.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
                 </div>
             </div>

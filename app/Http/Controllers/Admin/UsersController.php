@@ -17,6 +17,7 @@ use Yajra\DataTables\DataTables;
 use Validator;
 Use App\Mail\Restore;
 use stdClass;
+use Flash;
 
 
 class UsersController extends JoshController
@@ -155,6 +156,10 @@ class UsersController extends JoshController
                 // Send the activation code through email
                 Mail::to($user->email)
                     ->send(new Restore($data));
+            }
+
+            if(empty($company->vat_code)){
+	            Flash::error('<a href="'.route('admin.companies.edit',['companies'=>$company->id]).'">Edit company to add CIF/CUI! '.$company->name.'</a>');
             }
 
             // Redirect to the home page with success menu
