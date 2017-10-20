@@ -16,7 +16,7 @@
             <td>{!! class_basename($attachement->imageable) !!}</td>
             <td>{!! $attachement->created_at !!}</td>
             <td>
-                <a href="{{ route('admin.attachements.confirm-delete', $other->id) }}" data-toggle="modal" data-target="#delete_confirm">
+                <a href="{{ route('admin.attachements.confirm-delete', $attachement->id) }}" data-toggle="modal" data-target="#delete_confirm">
                     <i class="livicon" data-name="remove-alt" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete other"></i>
                 </a>
             </td>
