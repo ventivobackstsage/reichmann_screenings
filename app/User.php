@@ -6,6 +6,7 @@ use App\Models\Update;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentTaggable\Taggable;
+use Lab404\Impersonate\Models\Impersonate;
 
 
 class User extends EloquentUser {
@@ -26,6 +27,8 @@ class User extends EloquentUser {
 	 * @var array
 	 */
     use Taggable;
+
+    use Impersonate;
 
 	protected $fillable = [];
 	protected $guarded = ['id'];

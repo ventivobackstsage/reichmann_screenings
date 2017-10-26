@@ -1,3 +1,7 @@
+@impersonating
+<a href="{{ route('admin.users.impersonate.leave') }}">Leave impersonation</a>
+@endImpersonating
+aaaa
 {{-- <li class="dropdown messages-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="livicon"
                                                                    data-name="message-flag"

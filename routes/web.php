@@ -68,9 +68,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
 
 Route::group(['prefix' => 'admin','namespace'=>'Admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
 
+	Route::impersonate();
+
     # User Management
     Route::group([ 'prefix' => 'users'], function () {
-        Route::get('data', 'UsersController@data')->name('users.data');
+	    Route::get('data', 'UsersController@data')->name('users.data');
+	    Route::get('{user}/impersonate', 'UsersController@impersonate')->name('users.impersonate');
+	    Route::get('leave', 'UsersController@leave')->name('users.impersonate.leave');
         Route::post('store_company', 'UsersController@store_company')->name('users.store_company');
         Route::get('invite', 'UsersController@invite')->name('users.invite');
         Route::get('{user}/delete', 'UsersController@destroy')->name('users.delete');
@@ -184,4 +188,5 @@ Route::get('blogitem/{slug?}', 'BlogController@getBlog');
 Route::post('blogitem/{blog}/comment', 'BlogController@storeComment');
 
 Route::get('{name?}', 'FrontEndController@showFrontEndView');
+
 # End of frontend views

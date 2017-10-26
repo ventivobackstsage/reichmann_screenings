@@ -36,6 +36,36 @@ class UsersController extends JoshController
         return view('admin.users.index', compact('users'));
     }
 
+	public function impersonate($id)
+	{
+		try {
+			// Get the user information
+			$user = Sentinel::findUserById($id);
+
+			Sentinel::getUser()->impersonate($user);
+
+		} catch (UserNotFoundException $e) {
+
+		}
+
+		return Redirect::route('admin.dashboard');
+
+	}
+
+	public function leave()
+	{
+		try {
+
+			Sentinel::getUser()->leaveImpersonation();;
+
+		} catch (UserNotFoundException $e) {
+			// Prepare the error message
+		}
+
+		return Redirect::route('admin.dashboard');
+
+	}
+
     /**
      * Pass data through ajax call
      * @return mixed
@@ -70,7 +100,7 @@ class UsersController extends JoshController
                 if(!Sentinel::inRole('admin')) return "";
                 $actions = '<a href='. route('admin.users.edit', $user->id) .'><i class="livicon" data-name="edit" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="update user"></i></a>';
                 if ((Sentinel::getUser()->id != $user->id) && ($user->id != 1)) {
-                    $actions .= '<a href='. route('admin.users.confirm-delete', $user->id) .' data-toggle="modal" data-target="#delete_confirm"><i class="livicon" data-name="user-remove" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete user"></i></a>';
+                    $actions .= '<a href='. route('admin.users.confirm-delete', $user->id) .' data-toggle="modal" data-target="#delete_confirm"><i class="livicon" data-name="user-remove" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete user"></i></a><a href='. route('admin.users.impersonate', $user->id) .'><i class="livicon" data-name="user-remove" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete user"></i></a>';
                 }
                 return $actions;
             })

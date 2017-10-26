@@ -197,8 +197,9 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
-	    \App\Providers\SmartBillCloudRestClientServiceProvider::class
+	    \App\Providers\SmartBillCloudRestClientServiceProvider::class,
 
+	    Lab404\Impersonate\SentinelImpersonateServiceProvider::class,
 
     ],
 
