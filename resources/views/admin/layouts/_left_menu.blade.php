@@ -5,6 +5,13 @@
 
 
 <ul id="menu" class="page-sidebar-menu">
+    @impersonating
+    <li>
+        <a href="{{ route('admin.users.impersonate.leave') }}"> <i class="livicon" data-name="sign-out" data-loop="true" data-color="#42aaca" data-hovercolor="#42aaca" data-size="28"></i>
+            <span style="position: relative; top: 3px;">Leave impersonation</span>
+        </a>
+    </li>
+    @endImpersonating
     <li {!! (Request::is('admin') ? 'class="active"' : '') !!}>
         <a href="{{ route('admin.dashboard') }}">
             <i class="livicon" data-name="home" data-size="18" data-c="#418BCA" data-hc="#418BCA"

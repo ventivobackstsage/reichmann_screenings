@@ -41,6 +41,7 @@ Orders
         <div class="panel panel-primary">
             <div class="panel-body">
                 <h2>Order ID: {!! $order->id !!}</h2>
+                <p><a href="{{ route('admin.users.impersonate', $order->candidate->user->id) }}">Impersonate candidate</a></p>
                 <hr>
                 <div class="col-md-12">
                     <p><strong>First name</strong>: {!! $order->candidate->user->first_name !!}</p>
