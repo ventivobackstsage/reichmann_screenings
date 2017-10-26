@@ -9,6 +9,8 @@
 	namespace App\Classes;
 
 
+	use Exception;
+
 	class SmartBillCloudRestClientClass
 	{
 
