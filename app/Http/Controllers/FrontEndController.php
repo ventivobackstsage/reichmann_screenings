@@ -225,11 +225,10 @@ class FrontEndController extends JoshController
                 return Redirect::route('admin.dashboard');
             }
 
-
         } else {
             // Activation not found or not completed.
             $error = trans('auth/message.activate.error');
-            return Redirect::route('login')->with('error', $error);
+            return redirect('admin/signin')->with('error', $error);
         }
     }
 

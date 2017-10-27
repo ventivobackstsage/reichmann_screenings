@@ -111,6 +111,8 @@ class AuthController extends JoshController
      */
     public function getActivate($userId,$activationCode = null)
     {
+
+    	dd($activationCode);
         // Is user logged in?
         if (Sentinel::check()) {
             return Redirect::route('admin.dashboard');
@@ -135,7 +137,7 @@ class AuthController extends JoshController
         } else {
             // Activation not found or not completed.
             $error = trans('auth/message.activate.error');
-            return Redirect::route('signin')->with('error', $error);
+            return Redirect::route('admin.login')->with('error', $error);
         }
 
     }

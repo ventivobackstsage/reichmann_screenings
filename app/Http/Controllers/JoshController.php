@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 
+use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\MessageBag;
+use Laracasts\Flash\Flash;
 use Sentinel;
 use View;
 use Illuminate\Http\Request;
@@ -290,10 +292,13 @@ class JoshController extends Controller {
 
     public function showHome()
     {
-
-
     	if(Sentinel::check())
-			return view('admin.index');
+    		if(Activation::completed(Sentinel::getUser()))
+				return view('admin.index');
+    	    else{
+		        Flash::error('User not activated');
+    	    	return redirect('admin.users.impersonate.leave');
+	        }
 		else
 			return redirect('admin/signin')->with('error', 'You must be logged in!');
     }

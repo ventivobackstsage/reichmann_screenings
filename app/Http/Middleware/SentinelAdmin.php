@@ -22,8 +22,8 @@ class SentinelAdmin
         elseif(Sentinel::inRole('user'))
             return redirect('my-account');
 
-        $tasks_count = Task::where('user_id', Sentinel::getUser()->id)->count();
-        $request->attributes->add(['tasks_count' => $tasks_count]);
+        //$tasks_count = Task::where('user_id', Sentinel::getUser()->id)->count();
+        //$request->attributes->add(['tasks_count' => $tasks_count]);
 
         return $next($request);
     }

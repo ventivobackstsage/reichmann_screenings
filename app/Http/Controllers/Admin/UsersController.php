@@ -100,7 +100,13 @@ class UsersController extends JoshController
                 if(!Sentinel::inRole('admin')) return "";
                 $actions = '<a href='. route('admin.users.edit', $user->id) .'><i class="livicon" data-name="edit" data-size="18" data-loop="true" data-c="#428BCA" data-hc="#428BCA" title="update user"></i></a>';
                 if ((Sentinel::getUser()->id != $user->id) && ($user->id != 1)) {
-                    $actions .= '<a href='. route('admin.users.confirm-delete', $user->id) .' data-toggle="modal" data-target="#delete_confirm"><i class="livicon" data-name="user-remove" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete user"></i></a><a href='. route('admin.users.impersonate', $user->id) .'><i class="livicon" data-name="ghost" data-size="18" data-loop="true" data-c="#00bc8c" data-hc="#f89a14" title="impersonate user"></i></a>';
+                    $actions .= '<a href='. route('admin.users.confirm-delete', $user->id) .' data-toggle="modal" data-target="#delete_confirm"><i class="livicon" data-name="user-remove" data-size="18" data-loop="true" data-c="#f56954" data-hc="#f56954" title="delete user"></i></a>';
+                    if(Activation::completed($user)){
+	                    $actions .= '<a href='. route('admin.users.impersonate', $user->id) .'><i class="livicon" data-name="ghost" data-size="18" data-loop="true" data-c="#00bc8c" data-hc="#f89a14" title="impersonate user"></i></a>';
+                    }else{
+	                    $actions .= '<a href='. route('admin.restore.user', $user->id) .'><i class="livicon" data-name="mail-alt" data-size="18" data-loop="true" data-c="#418bca" data-hc="#00bc8c" title="restore user"></i></a>';
+                    }
+
                 }
                 return $actions;
             })
@@ -122,6 +128,21 @@ class UsersController extends JoshController
         // Show the page
         return view('admin.users.create', compact('groups', 'countries'));
     }
+
+	/**
+	 * Create new user
+	 *
+	 * @return View
+	 */
+	public function create_admin()
+	{
+		// Get all the available groups
+		$groups = Sentinel::getRoleRepository()->all();
+
+		$countries = $this->countries;
+		// Show the page
+		return view('admin.users.create_admin', compact('groups', 'countries'));
+	}
 
     /**
      * Create new user
@@ -161,22 +182,35 @@ class UsersController extends JoshController
 
         try {
             // Register the user
+	        $role = Sentinel::findRoleById($request->get('group'));
+
+	        if($role->slug=='admin'){
+	        	$activate = true;
+	        }
+
             $user = Sentinel::register($request->except('_token', 'password_confirm', 'group', 'activate', 'pic_file','company'), $activate);
 
             //add user to 'User' group
-            $role = Sentinel::findRoleById($request->get('group'));
+
             if ($role) {
                 $role->users()->attach($user);
             }
             //check for activation and send activation mail if not activated by default
 
-            $comp_slug = str_slug($request->get('company'),'-');
-            $company = Company::firstOrNew(['slug'=> $comp_slug]);
-            $company->name = $request->get('company');
-            $company->save();
+	        if($role->slug!=='admin'){
+		        $comp_slug = str_slug($request->get('company'),'-');
+		        $company = Company::firstOrNew(['slug'=> $comp_slug]);
+		        $company->name = $request->get('company');
+		        $company->save();
 
-            $user->entity_id = $company->id;
-            $user->save();
+		        $user->entity_id = $company->id;
+		        $user->save();
+
+		        if(empty($company->vat_code)){
+			        Flash::error('<a href="'.route('admin.companies.edit',['companies'=>$company->id]).'">Edit company to add CIF/CUI! '.$company->name.'</a>');
+		        }
+	        }
+
 
             if (!$activate) {
                 // Data to be used on the email view
@@ -188,9 +222,7 @@ class UsersController extends JoshController
                     ->send(new Restore($data));
             }
 
-            if(empty($company->vat_code)){
-	            Flash::error('<a href="'.route('admin.companies.edit',['companies'=>$company->id]).'">Edit company to add CIF/CUI! '.$company->name.'</a>');
-            }
+
 
             // Redirect to the home page with success menu
             return Redirect::route('admin.users.index')->with('success', trans('users/message.success.create'));
@@ -486,13 +518,16 @@ class UsersController extends JoshController
             // Prepare the success message
             $success = trans('users/message.success.restored');
             // Redirect to the user management page
-            return Redirect::route('admin.deleted_users')->with('success', $success);
+
+	        return Redirect::route('admin.users.index')->with('success', $success);
         } catch (UserNotFoundException $e) {
             // Prepare the error message
             $error = trans('users/message.user_not_found', compact('id'));
 
             // Redirect to the user management page
-            return Redirect::route('admin.deleted_users')->with('error', $error);
+            //return Redirect::route('admin.deleted_users')->with('error', $error);
+	        return Redirect::route('admin.users.index')->with('error', $error);
+
         }
     }
 

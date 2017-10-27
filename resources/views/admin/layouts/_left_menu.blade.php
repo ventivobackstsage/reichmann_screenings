@@ -713,6 +713,12 @@
             Add New User
         </a>
         </li>
+        <li {!! (Request::is('admin/users/create_admin') ? 'class="active" id="active"' : '') !!}>
+        <a href="{{ URL::to('admin/users/create_admin') }}">
+            <i class="fa fa-angle-double-right"></i>
+            Add New Admin
+        </a>
+        </li>
     </ul>
     </li>
     @endif
