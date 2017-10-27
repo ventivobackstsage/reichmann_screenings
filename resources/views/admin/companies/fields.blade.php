@@ -18,11 +18,6 @@
 </div>
 
 <div class="form-group col-sm-12">
-    {!! Form::label('vat_code', 'VAT Code:') !!}
-    {!! Form::text('vat_code', null, ['class' => 'form-control', 'required']) !!}
-</div>
-
-<div class="form-group col-sm-12">
     {!! Form::label('discount', 'Discount(%):') !!}
     {!! Form::text('discount', null, ['class' => 'form-control']) !!}
 </div>

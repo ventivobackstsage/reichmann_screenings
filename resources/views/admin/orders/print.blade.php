@@ -165,7 +165,7 @@
         </p>
 
         <div style="float: left">
-            Cohen Investigations Agency SRL was retained on {{ Carbon::parse($order->created_at)->format('M d, Y') }} to conduct covert surveillance to determine the Subject’s integrity.
+            Reichmann Asset Management SRL was retained on {{ Carbon::parse($order->created_at)->format('M d, Y') }} to conduct background checks to determine the Subject’s integrity.
         </div>
     </div>
     <div class="row">
