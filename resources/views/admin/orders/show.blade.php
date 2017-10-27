@@ -105,10 +105,14 @@ Orders
                     <!-- Status Id Field -->
                     <div class="form-group col-sm-12">
                         @if (Sentinel::inRole('admin'))
-                            {!! Form::select('status', ['pending'=>'pending','viewed'=>'viewed','analyzed'=>'analyzed','escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2']) !!}
+                            {!! Form::select('status', ['pending'=>'pending','viewed'=>'viewed','analyzed'=>'analyzed','escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2','required']) !!}
                         @elseif (Sentinel::inRole('company'))
-                            {!! Form::select('status', ['escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2']) !!}
+                            {!! Form::select('status', ['escalated'=>'escalated', 'done'=>'done'], null,['placeholder' => 'Change order status','class' => 'form-control select2','required']) !!}
                         @endif
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                    {!! Form::select('category', ['studies'=>'STUDIES', 'experience'=>'EXPERIENCE', 'other'=>'OTHER'], null,['placeholder' => 'Update category','class' => 'form-control select2','required']) !!}
                     </div>
                     <!-- Info Field -->
                     <div class="form-group col-sm-12">

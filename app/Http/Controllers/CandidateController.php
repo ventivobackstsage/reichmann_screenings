@@ -163,7 +163,7 @@ class CandidateController extends InfyOmBaseController
 			    Flash::error($ex->getMessage());
 		    }
 
-		    Flash::success('Candidate create! \r\nYour order was placed.');
+		    Flash::success('Candidate created! <br />Your order was placed.');
 
 		    //check for activation and send activation mail if not activated by default
 		    if (!$request->get('activate')) {

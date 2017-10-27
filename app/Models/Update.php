@@ -17,7 +17,8 @@ class Update extends Model
     public $fillable = [
         'order_id',
         'status',
-        'Description',
+	    'Description',
+	    'category',
         'user_id'
     ];
 
@@ -30,7 +31,8 @@ class Update extends Model
         'order_id' => 'integer',
         'status' => 'string',
         'Description' => 'string',
-        'user_id' => 'string'
+        'user_id' => 'string',
+        'category' => 'string'
     ];
 
     /**

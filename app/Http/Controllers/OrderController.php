@@ -152,7 +152,7 @@ class OrderController extends InfyOmBaseController
         $pdf = PDF::loadView('admin.orders.print',['order'=>$order]);
 
         return $pdf->stream('order'.$id.'.pdf');
-	    return view('admin.orders.print')->with('order', $order);
+	    //return view('admin.orders.print')->with('order', $order);
 
     }
 
@@ -243,14 +243,15 @@ class OrderController extends InfyOmBaseController
         $update = new Update;
         $update->order_id = $order->id;
         $update->status = $request->get('status');
-        $update->Description = $request->get('info');
+	    $update->Description = $request->get('info');
+	    $update->category = $request->get('category');
         $update->user_id = Sentinel::getUser()->id;
         $update->save();
 
 
         Flash::success('Order updated successfully.');
 
-        return redirect(route('admin.orders.index'));
+        return redirect()->back();
     }
 
     /**

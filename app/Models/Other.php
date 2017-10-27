@@ -74,7 +74,7 @@ class Other extends Model
 
     public function attachements()
     {
-    	return $this->morphMany(Attachement::class,'imageable');
+    	return $this->morphOne(Attachement::class,'imageable');
     }
 
 	/**
