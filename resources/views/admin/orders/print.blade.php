@@ -255,7 +255,9 @@
                 <strong>Date:</strong>{{ $other->date }}<br />
                 <strong>Description:</strong>{{ $other->description }}</p>
             <br />
+            @if($other->attachements)
             <img width="100%" src="{{ asset($other->attachements->path) }}"></img>
+            @endif
             <br /><br />
             @if(!$loop->last)
             <hr>

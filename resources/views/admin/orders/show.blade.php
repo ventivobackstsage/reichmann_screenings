@@ -41,7 +41,9 @@ Orders
         <div class="panel panel-primary">
             <div class="panel-body">
                 <h2>Order ID: {!! $order->id !!}</h2>
+                @if (Sentinel::check() && Sentinel::inRole('admin'))
                 <p><a href="{{ route('admin.users.impersonate', $order->candidate->user->id) }}">Impersonate candidate</a></p>
+                @endif
                 <hr>
                 <div class="col-md-12">
                     <p><strong>First name</strong>: {!! $order->candidate->user->first_name !!}</p>
@@ -112,7 +114,7 @@ Orders
                     </div>
 
                     <div class="form-group col-sm-12">
-                    {!! Form::select('category', ['studies'=>'STUDIES', 'experience'=>'EXPERIENCE', 'other'=>'OTHER'], null,['placeholder' => 'Update category','class' => 'form-control select2','required']) !!}
+                    {!! Form::select('category', ['studies'=>'STUDIES', 'experience'=>'EXPERIENCE', 'other'=>'OTHER'], null,['placeholder' => 'Update category','class' => 'form-control select2']) !!}
                     </div>
                     <!-- Info Field -->
                     <div class="form-group col-sm-12">
