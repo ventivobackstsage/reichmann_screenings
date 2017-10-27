@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -55,5 +56,10 @@ class Update extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDateOnlyAttribute()
+    {
+    	return Carbon::parse($this->created_at)->format('M d, Y');
     }
 }

@@ -139,7 +139,7 @@
             <br />
             <div style="float: left"><strong>Investigation Date(s):</strong></div>
             <div style="margin-left: 11em; float: left;">
-                @foreach ($order->updates as $update)
+                @foreach ($order->updates->unique("dateOnly") as $update)
                 {{Carbon::parse($update->created_at)->format('M d, Y')}}
                 @if (!$loop->last)
                 ;
