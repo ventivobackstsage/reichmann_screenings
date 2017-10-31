@@ -83,13 +83,7 @@
 	</div>
 </div>
 
-<!-- Reason Field -->
-<div class="form-group col-sm-12">
-	{!! Form::label('reason', 'Reason:', ['class' => 'col-sm-2 control-label']) !!}
-	<div class="col-sm-10">
-		{!! Form::select('reason', array('hire' => 'Hire', 'fire' => 'Fire'), null, ['placeholder' => 'Please select reason', 'class' => 'form-control', 'required']); !!}
-	</div>
-</div>
+<input type="hidden" name="reason" value="hire" />
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 text-center">

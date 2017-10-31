@@ -62,6 +62,11 @@
                                         Keep me logged in
                                     </label>
                                 </div>
+                                <div class="form-group">
+                                    <label>
+                                        By using the app I accept the following <a href="/consent" target="_blank">consent</a>.
+                                    </label>
+                                </div>
                                 <p class="login button">
                                     <input type="submit" value="Log In" class="btn btn-success" />
                                 </p>
