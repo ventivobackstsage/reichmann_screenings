@@ -118,7 +118,7 @@ class CandidateController extends InfyOmBaseController
 
 			$products = array();
 			$products[] = array(
-				'name'              => $user->fullName,
+				'name'              => $user->fullName.' ( Internal ID '.$order->id.')',
 				'measuringUnitName' => "buc",
 				'currency'          => "EUR",
 				'quantity'          => 1,
@@ -155,17 +155,16 @@ class CandidateController extends InfyOmBaseController
 			    );
 
 
-		    //Flash::success('Candidate created! <br />Your order was placed.');
+		    Flash::success('Candidate created! <br />Your order was placed.');
 
 		    debug($invoice);
 
 		    try {
     	        $response = $smartBill->createInvoice($invoice);
+
 			    $order->sb_name = $response['series'];
 			    $order->sb_number = $response['number'];
 			    $order->save();
-			    
-			    dd($response);
 		    } catch (Exception $ex) {
 			    Flash::error($ex->getMessage());
 			    //debug($ex->getMessage());
