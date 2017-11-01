@@ -141,7 +141,7 @@ class CandidateController extends InfyOmBaseController
 			}
 
 		    $invoice = array(
-			    'companyVatCode'=> "RO30184266",
+			    'companyVatCode'=> "30184266",
 			    'client'        => array(
 				    'name'          => $company->name,
 				    'vatCode'       => $company->vat_code,
@@ -154,16 +154,24 @@ class CandidateController extends InfyOmBaseController
 			    'products'      => $products
 			    );
 
+
+		    //Flash::success('Candidate created! <br />Your order was placed.');
+
+		    debug($invoice);
+
 		    try {
     	        $response = $smartBill->createInvoice($invoice);
 			    $order->sb_name = $response['series'];
 			    $order->sb_number = $response['number'];
 			    $order->save();
+			    
+			    dd($response);
 		    } catch (Exception $ex) {
 			    Flash::error($ex->getMessage());
+			    //debug($ex->getMessage());
 		    }
 
-		    Flash::success('Candidate created! <br />Your order was placed.');
+		    //dd();
 
 		    //check for activation and send activation mail if not activated by default
 		    if (!$request->get('activate')) {
