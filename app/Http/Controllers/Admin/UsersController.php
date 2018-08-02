@@ -72,11 +72,14 @@ class UsersController extends JoshController
      */
     public function data()
     {
+    	$company_id = -1;
 
         if(Sentinel::inRole('admin'))
             $users = User::get(['id', 'first_name', 'last_name', 'email','created_at']);
         elseif (Sentinel::inRole('company')){
-            $users = User::where('entity_id',Sentinel::getUser()->company->id)->get(['id', 'first_name', 'last_name', 'email','created_at']);
+        	if(Sentinel::getUser()->company->id>0)
+        		$company_id = Sentinel::getUser()->company->id;
+            $users = User::where('entity_id',$company_id)->get(['id', 'first_name', 'last_name', 'email','created_at']);
         }
 
         return DataTables::of($users)
